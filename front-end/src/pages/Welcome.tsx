@@ -7,7 +7,7 @@ function Welcome() {
     <div className="welcome-container">
       <div className="first-section">
         <nav className="navbar">
-        <img src={Logo} alt="Vista Planner" className="logo"/>
+          <img src={Logo} alt="Vista Planner" className="logo" />
           <div className="nav-links">
             <a href="#">About Us</a>
             <button className="sign-in">Sign In</button>
