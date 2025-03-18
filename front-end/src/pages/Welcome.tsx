@@ -20,7 +20,7 @@ function Welcome() {
             <div className="text-section">
               <h1>WELCOME TO VISTA PLANNER!</h1>
               <p>
-                Unlock your full potential and take charge of your academic journey withs
+                Unlock your full potential and take charge of your academic journey with
                 VISTA PLANNER—the ultimate student planner and school organizer app.
                 Effortlessly manage your study plans, track progress, and stay on top of deadlines.
               </p>
