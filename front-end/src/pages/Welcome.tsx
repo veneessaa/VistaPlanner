@@ -25,6 +25,7 @@ function Welcome() {
                 Effortlessly manage your study plans, track progress, and stay on top of deadlines.
               </p>
               <Button text="Get Started" />
+              <div>sesuatu</div>
             </div>
             <img src={bookImage} alt="Vista Planner Book" className="book-image" />
           </div>
