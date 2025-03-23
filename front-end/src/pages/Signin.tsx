@@ -4,6 +4,7 @@ import Google from "../assets/images/google.png"
 import Ms from "../assets/images/microsoft.png"
 import "../styles/signin.css";
 import "../styles/index.css";
+import { Link } from "react-router-dom";
 
 function Signin(){
     return (
@@ -56,10 +57,14 @@ function Signin(){
                     </div>
 
                     <div className="submit-container">
-                        <Button text="SIGN IN" />
+                        <Link to="/homepage" className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700">
+                            Sign In
+                        </Link>
                         <div className="signup-option">
                             <p>Don't have an account yet?</p>
-                            <a href="/signup">Sign up</a>   {/* belum perbaiki link path */}
+                            <Link to="/signup" className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700">
+                                Sign Up
+                            </Link>
                             <p>now</p>
                         </div>
                     </div>
