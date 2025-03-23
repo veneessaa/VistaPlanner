@@ -1,6 +1,7 @@
 import Button from "../components/Button.tsx";
 import bookImage from "../assets/images/book.png";
 import Logo from "../assets/images/logo_white.png";
+import { Link } from "react-router-dom";
 
 function Welcome() {
   return (
@@ -10,7 +11,9 @@ function Welcome() {
           <img src={Logo} alt="Vista Planner" className="logo" />
           <div className="nav-links">
             <a href="#">About Us</a>
-            <button className="sign-in">Sign In</button>
+            <Link to="/signin" className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700">
+                Sign In
+            </Link>
           </div>
         </nav>
 
