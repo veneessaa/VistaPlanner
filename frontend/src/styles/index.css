@@ -2,15 +2,17 @@
 
 @theme {
   --color-primary: #163979;
+  --color-mid: #437be0;
   --color-sec: #80bde8;
   --color-button-primary: #ed7521;
   --color-button-hover: #d66413;
   --color-link: #0171ce;
+  --color-section: #EDF0F5;
 }
 
 /* Global Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: #f5f7fa;
   margin: 0;
   padding: 0;
@@ -25,11 +27,11 @@ body {
   box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.1);
 } */
 
-.navbar {
+/* .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: var(--main-color); */
+  background-color: var(--main-color);
   padding: 0px 60px;
   box-shadow: 0px 6px 6px rgb(60, 61, 61);
 }
@@ -53,10 +55,10 @@ body {
   padding: 12px 30px;
   border-radius: 7px;
   cursor: pointer;
-}
+} */
 
 /* Welcome Page Styles */
-.first-section{
+/* .first-section{
   background: #ebe8e8;
 }
 
@@ -142,4 +144,4 @@ body {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
