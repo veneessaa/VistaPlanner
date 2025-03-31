@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/Homepage.tsx";
-import Welcome from "./pages/Welcome.tsx";
+import Welcome from "./pages/Welcome/Welcome.tsx";
 import Signin from "./pages/Signin.tsx";
 // import Calendar from "./pages/Calendar.tsx";
 import MySettings from "./pages/MySettings.tsx";
