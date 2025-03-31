@@ -24,16 +24,16 @@ function Navbar() {
   const [open, setOpen] = useState(true);
 
   return (
-    <nav className={`shadow-md p-2 flex flex-col duration-500 bg-blue-600 text-white ${open ? "w-60" : "w-16"}`}>
-      <div className="px-2 py-2 h-20 flex justify-between items-center">
-        <img src={Logo} alt="Logo" className={`${open ? "w-38" : "w-0"} rounded-md`} />
+    <nav className={`shadow-md p-2 flex flex-col duration-500 bg-primary text-white ${open ? "w-60" : "w-18"}`}>
+      <div className={`px-2 py-2 h-20 flex justify-between items-center ${!open ? "justify-center" : "mb-3"}`}>
+        <img src={Logo} alt="Logo" className={`${open ? "w-38" : "w-0"} mt-4`} />
         <MdMenuOpen size={34} className={`cursor-pointer duration-500 ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
       </div>
-      <ul className="flex-1">
+      <ul className="flex-1 p-1">
         {menuItems.map((item, index) => (
-          <li key={index} className="px-2 py-2 my-3 hover:bg-blue-800 rounded-md duration-300 cursor-pointer flex gap-5 items-center">
+          <li key={index} className="px-2 py-2 my-3 hover:bg-mid rounded-md duration-300 cursor-pointer flex gap-5 items-center">
             <div>{item.icon}</div>
-            <p className={`${!open && "w-0 translate-x-24"} duration-500 overflow-hidden`}>{item.label}</p>
+            <p className={`${!open && "w-0 hidden"} duration-300`}>{item.label}</p>
           </li>
         ))}
       </ul>

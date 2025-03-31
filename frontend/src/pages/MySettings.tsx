@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Profile from "../assets/images/Profile.png";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Sidebar";
 
 function MySettings() {
   const [profile, setProfile] = useState({
