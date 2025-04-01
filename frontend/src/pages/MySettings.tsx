@@ -26,8 +26,6 @@ function MySettings() {
 
   return (
     <div className="flex h-screen bg-blue-100">
-      {/* Sidebar */}
-      <Navbar />
 
       {/* Main Content */}
       <div className="flex-1 p-6">

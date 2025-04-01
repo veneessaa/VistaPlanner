@@ -5,16 +5,21 @@ import Signin from "./pages/Signin.tsx";
 // import Calendar from "./pages/Calendar.tsx";
 import MySettings from "./pages/MySettings.tsx";
 import Signup from "./pages/Signup.tsx";
+import { SidebarLayout } from "./components/layout/SidebarLayout.tsx";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Welcome />} />
-        <Route path="/homepage" element={<Homepage />} />
-        <Route path="/mysettings" element={<MySettings />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/homepage" element={
+          <SidebarLayout>
+          <Homepage />
+          </SidebarLayout>
+        } />
+        <Route path="/mysettings" element={<SidebarLayout><MySettings /></SidebarLayout>} />
       </Routes>
     </Router>
   );

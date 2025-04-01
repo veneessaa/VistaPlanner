@@ -9,18 +9,19 @@ import { FaBookReader } from "react-icons/fa";
 import { TbReportSearch } from "react-icons/tb";
 import { IoLogoBuffer } from "react-icons/io";
 import { CiSettings } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const menuItems = [
-  { icon: <IoHomeOutline size={30} />, label: "Home" },
-  { icon: <MdLibraryBooks size={30} />, label: "Tasks" },
-  { icon: <FaRegCalendarDays size={30} />, label: "Calendar" },
-  { icon: <FaBookReader size={30} />, label: "Study Zone" },
-  { icon: <IoLogoBuffer size={30} />, label: "Collab & Sharing" },
-  { icon: <TbReportSearch size={30} />, label: "Resource Center" },
-  { icon: <CiSettings size={30} />, label: "My Settings" },
+  { icon: <IoHomeOutline size={30} />, label: "Home", to: "/homepage"},
+  { icon: <MdLibraryBooks size={30} />, label: "Tasks", to: "/" },
+  { icon: <FaRegCalendarDays size={30} />, label: "Calendar", to: "/" },
+  { icon: <FaBookReader size={30} />, label: "Study Zone", to: "/" },
+  { icon: <IoLogoBuffer size={30} />, label: "Collab & Sharing", to: "/" },
+  { icon: <TbReportSearch size={30} />, label: "Resource Center", to: "/" },
+  { icon: <CiSettings size={30} />, label: "My Settings", to: "/mysettings" },
 ];
 
-function Navbar() {
+function Sidebar() {
   const [open, setOpen] = useState(true);
 
   return (
@@ -31,14 +32,16 @@ function Navbar() {
       </div>
       <ul className="flex-1 p-1">
         {menuItems.map((item, index) => (
+          <Link to={item.to}>
           <li key={index} className="px-2 py-2 my-3 hover:bg-mid rounded-md duration-300 cursor-pointer flex gap-5 items-center">
             <div>{item.icon}</div>
             <p className={`${!open && "w-0 hidden"} duration-300`}>{item.label}</p>
           </li>
+          </Link>
         ))}
       </ul>
     </nav>
   );
 }
 
-export default Navbar;
+export default Sidebar;
