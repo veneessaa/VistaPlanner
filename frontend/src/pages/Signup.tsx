@@ -33,7 +33,7 @@ function Signup() {
         <div className="flex flex-wrap min-h-screen">
             {/* Welcome Section */}
             <div className="flex flex-col items-center justify-center bg-primary text-white w-full md:w-1/2 p-10 text-center px-15">
-                <img src={Logo} alt="Vista Planner" className="w-60 -mt-12" />
+                <img src={Logo} alt="Vista Planner" className="w-60 -mt-12 mb-10" />
                 <div className="flex flex-wrap justify-center items-center text-2xl">
                     <p className="mr-2 font-semibold">Hello, welcome to</p>
                     <h1 className="text-4xl font-bold">VISTA Planner</h1>
