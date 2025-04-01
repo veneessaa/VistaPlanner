@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Profile from "../assets/images/Profile.png";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Sidebar";
 
 function MySettings() {
   const [profile, setProfile] = useState({
@@ -26,8 +26,6 @@ function MySettings() {
 
   return (
     <div className="flex h-screen bg-blue-100">
-      {/* Sidebar */}
-      <Navbar />
 
       {/* Main Content */}
       <div className="flex-1 p-6">
