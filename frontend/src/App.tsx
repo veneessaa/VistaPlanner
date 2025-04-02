@@ -5,18 +5,23 @@ import Signin from "./pages/Signin.tsx";
 // import Calendar from "./pages/Calendar.tsx";
 import MySettings from "./pages/MySettings.tsx";
 import Signup from "./pages/Signup.tsx";
+import { ToastContainer } from "react-toastify";
+import ProtectedRoute from "./middlewares/ProtectedRoute.tsx";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Welcome />} />
-        <Route path="/homepage" element={<Homepage />} />
-        <Route path="/mysettings" element={<MySettings />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-    </Router>
+    <>
+      <ToastContainer />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/homepage" element={<ProtectedRoute><Homepage /></ProtectedRoute>} />
+          <Route path="/mysettings" element={<ProtectedRoute><MySettings /></ProtectedRoute>} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 

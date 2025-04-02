@@ -1,8 +1,11 @@
 import Logo from "../assets/images/logo_white.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 // Define validation schema using Zod
 const schema = z.object({
@@ -13,6 +16,10 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 function Signin() {
+    const { login } = useAuth();
+
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -21,8 +28,17 @@ function Signin() {
         resolver: zodResolver(schema),
     });
 
-    const onSubmit = (data: FormData) => {
+    const onSubmit = async (data: FormData) => {
         console.log("Form Submitted", data);
+
+        try {
+            const res = await axios.post('http://localhost:5000/auth/signin', data);
+            toast.success(res.data.message)
+            login(res.data.user)
+            navigate("/homepage");
+        } catch (error: any) {
+            toast.error(error.data.message)
+        }
     };
 
     return (
