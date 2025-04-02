@@ -47,7 +47,7 @@ function Welcome() {
       <div className="flex flex-col bg-white py-20">
         <div className="container mx-auto">
           <div className="grid grid-cols-3 gap-20">
-            <WhiteCard image={satuA} title="Smarter Studying" description="Work smarter, not harder. Our innovative productivity tools with AI-powered scheduling and adaptive timelines will help you plan your study sessions efficiently." />
+            <WhiteCard image={satuA} title="Smarter Studying" description="Work smarter, not harder. Our innovative productivity tools will help you plan your study sessions efficiently." />
             <WhiteCard image={satuB} title="Collaborative Productivity" description="Work smarter with group study planning, task sharing, and discussion spaces, all powered by AI-assisted insights." />
             <WhiteCard image={satuC} title="Better Management" description="Stay on top of assignments with categorized tasks, progress tracking, and deadline reminders to ensure timely completion." />
           </div>

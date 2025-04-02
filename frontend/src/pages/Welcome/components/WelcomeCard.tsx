@@ -11,7 +11,7 @@ export const WelcomeCard = ({ image, title, description }: Props) => {
                 <img className="object-cover h-[150px]" src={image} alt="" />
             </div>
             <div className="p-8 flex flex-col items-center gap-2">
-                <h1 className="font-bold text-mid text-xl">{title}</h1>
+                <h1 className="text-center font-bold text-mid text-xl">{title}</h1>
                 <p className="text-center">{description}</p>
             </div>
         </div>

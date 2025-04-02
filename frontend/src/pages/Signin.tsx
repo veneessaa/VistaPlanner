@@ -1,8 +1,11 @@
 import Logo from "../assets/images/logo_white.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 // Define validation schema using Zod
 const schema = z.object({
@@ -13,6 +16,10 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 function Signin() {
+    const { login } = useAuth();
+
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -21,15 +28,24 @@ function Signin() {
         resolver: zodResolver(schema),
     });
 
-    const onSubmit = (data: FormData) => {
+    const onSubmit = async (data: FormData) => {
         console.log("Form Submitted", data);
+
+        try {
+            const res = await axios.post('http://localhost:5000/auth/signin', data);
+            toast.success(res.data.message)
+            login(res.data.user)
+            navigate("/homepage");
+        } catch (error: any) {
+            toast.error(error.data.message)
+        }
     };
 
     return (
         <div className="flex flex-wrap min-h-screen">
             {/* Welcome Section */}
             <div className="flex flex-col items-center justify-center bg-primary text-white w-full md:w-1/2 p-10 text-center px-15">
-                <img src={Logo} alt="Vista Planner" className="w-60 -mt-12" />
+                <img src={Logo} alt="Vista Planner" className="w-60 -mt-12 mb-10" />
                 <div className="flex flex-wrap justify-center items-center text-2xl">
                     <p className="mr-2 font-semibold">Hello, welcome to</p>
                     <h1 className="text-4xl font-bold">VISTA Planner</h1>
