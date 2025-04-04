@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 const menuItems = [
   { icon: <IoHomeOutline size={30} />, label: "Home", to: "/homepage"},
   { icon: <MdLibraryBooks size={30} />, label: "Tasks", to: "/tasks" },
-  { icon: <FaRegCalendarDays size={30} />, label: "Calendar", to: "/" },
+  { icon: <FaRegCalendarDays size={30} />, label: "Calendar", to: "/calendar" },
   { icon: <FaBookReader size={30} />, label: "Study Zone", to: "/" },
   { icon: <IoLogoBuffer size={30} />, label: "Collab & Sharing", to: "/collab" },
   { icon: <TbReportSearch size={30} />, label: "Resource Center", to: "/" },

@@ -51,9 +51,9 @@ function Collab() {
     <SidebarLayout pageName="Collab Tasks List">
       <div className="mb-8">
         {loading ? (
-          <div>Loading...</div>
+          <div className="text-gray-500">Loading...</div>
         ) : tasks.length == 0 ? (
-          <div>No collab task found...</div>
+          <div className="text-gray-500">No collab task found...</div>
         ) : (
           <div className="flex flex-col gap-6">
             {tasks.map((task) => (

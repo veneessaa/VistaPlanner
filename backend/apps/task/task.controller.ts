@@ -3,6 +3,7 @@ import {
   createTask,
   createUserInTask,
   deleteTaskWithCollabs,
+  deleteUserInTask,
   getCollabTask,
   getTaskById,
   getTasksByUserId,
@@ -185,6 +186,32 @@ router.get("/task/:taskId", async (req, res) => {
   } catch (error: any) {
     console.error("Error during getting task:", error);
     res.status(500).json({ message: "Failed to get task" });
+  }
+});
+
+router.post("/remove-users", async (req, res) => {
+  try {
+    const { taskId, userIds } = req.body;
+
+    await deleteUserInTask(taskId, userIds);
+
+    res.status(200).json({
+      message: "Delete collaborators successfully",
+    });
+  } catch (error: any) {
+    console.error("Error removing user(s) from task:", error);
+
+    if (error.name === "ZodError") {
+      res.status(400).json({
+        message: "Invalid input",
+        errors: error.errors,
+      });
+      return;
+    }
+
+    res.status(500).json({
+      message: "Failed to remove user(s) from task.",
+    });
   }
 });
 

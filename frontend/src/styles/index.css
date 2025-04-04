@@ -4,18 +4,60 @@
   --color-primary: #163979;
   --color-mid: #437be0;
   --color-sec: #93c5fd;
-  --color-third: #BFDBFE;
+  --color-third: #bfdbfe;
   --color-button-primary: #ed7521;
   --color-button-hover: #d66413;
   --color-link: #0171ce;
-  --color-section: #EDF0F5;
-  --color-light: #DBEAFE;
+  --color-section: #edf0f5;
+  --color-light: #dbeafe;
 }
 
 /* Global Styles */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #f5f7fa;
   margin: 0;
   padding: 0;
 }
+
+.fc-event-title {
+  white-space: normal !important; /* allow text to wrap */
+  overflow-wrap: break-word; /* break long words if needed */
+}
+
+.fc-daygrid-event {
+  white-space: normal !important;
+  padding: 2px 4px;
+}
+
+.fc .fc-scrollgrid {
+  border-color: #e5e7eb; /* Tailwind gray-200 */
+}
+
+.fc .fc-daygrid-day {
+  border-color: #e5e7eb; /* Change individual cell border */
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border-color: #e5e7eb; /* Table cell and header border */
+}
+
+.fc .fc-col-header-cell {
+  background-color: #437be0; /* e.g. Tailwind gray-100 */
+  color: #ffffff;            /* Tailwind gray-800 */
+  font-weight: 600;
+}
+
+.fc .fc-daygrid-day {
+  background-color: #ffffff; /* or #f9fafb for a soft background */
+  border: 1px solid #e5e7eb; /* Tailwind gray-200 */
+}
+
+.fc .fc-day-today {
+  background-color: #faf4cf !important; /* Tailwind yellow-100 */
+}
+
+/* .fc-daygrid-event-dot { */
+/* border-color: #163979 !important; Use your desired color */
+/* } */

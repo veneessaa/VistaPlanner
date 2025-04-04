@@ -19,8 +19,12 @@ import {
   UpdateSubtaskModal,
 } from "./components/UpdateSubtaskModal";
 import { ConfirmDeleteModal } from "./components/ConfirmDeleteModal";
+import { MdDelete } from "react-icons/md";
+import { DeleteCollabModal } from "./components/DeleteCollabModal";
+import { useAuth } from "../../context/AuthContext";
 
 const TaskDetail = () => {
+  const { user } = useAuth();
   const [task, setTask] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,9 +34,12 @@ const TaskDetail = () => {
   const [notStarted, setNotStarted] = useState<any>([]);
   const [onProgress, setInProgress] = useState<any>([]);
   const [done, setDone] = useState<any>([]);
+  const [subtasks, setSubtasks] = useState<any>([]);
 
   const [editingSubtask, setEditingSubtask] = useState<any | null>(null);
   const [subtaskToDelete, setSubtaskToDelete] = useState<any | null>(null);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const formattedDueDate = task?.dueDate
     ? format(new Date(task.dueDate), "MMMM dd, yyyy 'at' hh:mm a")
@@ -62,7 +69,7 @@ const TaskDetail = () => {
         const res = await axios.get(`http://localhost:5000/subtasks/${taskId}`);
         const subtasks = res.data.subtasks;
 
-        console.log(subtasks);
+        setSubtasks(subtasks);
 
         const notStartedTasks = subtasks.filter(
           (task: { status: string }) => task.status === "Not Started"
@@ -110,6 +117,8 @@ const TaskDetail = () => {
       toast.success(res.data.message);
 
       const newSubtask = res.data.subtask;
+
+      setSubtasks((prev: any) => [...prev, newSubtask]);
 
       if (newSubtask.status === "Not Started") {
         setNotStarted((prev: any) => [...prev, newSubtask]);
@@ -180,7 +189,7 @@ const TaskDetail = () => {
     <SidebarLayout pageName={!task ? "Loading..." : task.title}>
       <div>
         {loading ? (
-          <div>Loading...</div>
+          <div className="text-gray-500">Loading...</div>
         ) : (
           <div className=" flex flex-col gap-2">
             <div className="flex justify-between">
@@ -207,8 +216,20 @@ const TaskDetail = () => {
                   <StatusTag text={task.status} />
                   <CategoryTag text={task.category} />
                 </div>
-                <div className="flex text-primary font-semibold mr-2">
-                  {!(task.collabUsers.length == 0) && "Collaborator"}
+                <div className="flex items-center gap-1">
+                  <div className="flex text-primary font-semibold">
+                    Collaborator
+                  </div>
+                  <div className="">
+                    {!(task.collabUsers.length == 0) &&
+                      user?.id === task.owner.id && (
+                        <MdDelete
+                          size={32}
+                          className="cursor-pointer p-1 rounded-md hover:bg-sec text-primary"
+                          onClick={() => setIsDeleteModalOpen(true)}
+                        />
+                      )}
+                  </div>
                 </div>
                 <div className="flex gap-1">
                   {task.collabUsers.map((user: any) => (
@@ -245,49 +266,57 @@ const TaskDetail = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-3 mt-3 gap-5">
-              <div className="flex flex-col gap-3">
-                <div className="flex justify-center font-semibold p-2 rounded-lg bg-mid text-white text-lg">
-                  Not Started
+            <div>
+              {!(subtasks.length == 0) ? (
+                <div className="grid grid-cols-3 mt-3 gap-5">
+                  <div className="flex flex-col gap-3">
+                    <div className="flex justify-center font-semibold p-2 rounded-lg bg-mid text-white text-lg">
+                      Not Started
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      {notStarted.map((subtask: any) => (
+                        <SubtaskCard
+                          subtask={subtask}
+                          onEdit={(s) => setEditingSubtask(s)}
+                          onDelete={handleShowDeleteModal}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex justify-center font-semibold p-2 rounded-lg bg-mid text-white text-lg">
+                      In Progress
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      {onProgress.map((subtask: any) => (
+                        <SubtaskCard
+                          subtask={subtask}
+                          onEdit={(s) => setEditingSubtask(s)}
+                          onDelete={handleShowDeleteModal}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex justify-center font-semibold p-2 rounded-lg bg-mid text-white text-lg">
+                      Done
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      {done.map((subtask: any) => (
+                        <SubtaskCard
+                          subtask={subtask}
+                          onEdit={(s) => setEditingSubtask(s)}
+                          onDelete={handleShowDeleteModal}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-3">
-                  {notStarted.map((subtask: any) => (
-                    <SubtaskCard
-                      subtask={subtask}
-                      onEdit={(s) => setEditingSubtask(s)}
-                      onDelete={handleShowDeleteModal}
-                    />
-                  ))}
+              ) : (
+                <div className="flex mt-2 justify-center text-gray-500">
+                  No subtasks found...
                 </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                <div className="flex justify-center font-semibold p-2 rounded-lg bg-mid text-white text-lg">
-                  In Progress
-                </div>
-                <div className="flex flex-col gap-3">
-                  {onProgress.map((subtask: any) => (
-                    <SubtaskCard
-                      subtask={subtask}
-                      onEdit={(s) => setEditingSubtask(s)}
-                      onDelete={handleShowDeleteModal}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                <div className="flex justify-center font-semibold p-2 rounded-lg bg-mid text-white text-lg">
-                  Done
-                </div>
-                <div className="flex flex-col gap-3">
-                  {done.map((subtask: any) => (
-                    <SubtaskCard
-                      subtask={subtask}
-                      onEdit={(s) => setEditingSubtask(s)}
-                      onDelete={handleShowDeleteModal}
-                    />
-                  ))}
-                </div>
-              </div>
+              )}
             </div>
 
             {subtaskToDelete && (
@@ -313,19 +342,38 @@ const TaskDetail = () => {
               />
             )}
 
-            <AddSubtaskModal
-              isOpen={isSubtaskModalOpen}
-              onClose={() => setIsSubtaskModalOpen(false)}
-              onSubmit={handleAddSubTaskSubmit}
-              taskId={task.id}
-              collabUsers={[...task.collabUsers, task.owner]}
-            />
+            {isSubtaskModalOpen && (
+              <AddSubtaskModal
+                isOpen={isSubtaskModalOpen}
+                onClose={() => setIsSubtaskModalOpen(false)}
+                onSubmit={handleAddSubTaskSubmit}
+                taskId={task.id}
+                collabUsers={[...task.collabUsers, task.owner]}
+              />
+            )}
 
             <AddCollabModal
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
               onSubmit={handleEmailSubmit}
             />
+
+            {isDeleteModalOpen && (
+              <DeleteCollabModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                collabUsers={task.collabUsers}
+                taskId={task.id}
+                onDeleteSuccess={(deletedIds) => {
+                  setTask((prev: any) => ({
+                    ...prev,
+                    collabUsers: prev.collabUsers.filter(
+                      (user: any) => !deletedIds.includes(user.id)
+                    ),
+                  }));
+                }}
+              />
+            )}
           </div>
         )}
       </div>
