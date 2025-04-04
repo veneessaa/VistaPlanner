@@ -1,4 +1,4 @@
-import Logo from "../assets/images/logo_white.png";
+import Logo from "../../assets/images/logo_white.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,7 +37,7 @@ function Signup() {
             toast.success(res.data.message)
             navigate("/signin");
         } catch (error: any) {
-            toast.error(error.data.message)
+            toast.error(error.response.data.message)
         }
     };
 

@@ -4,6 +4,7 @@ import { updateUserSchema } from "./dto/updateUser.dto";
 
 const router = express.Router();
 
+// update user by user id
 router.put("/:id", async (req, res) => {
     try {
         const validatedData = updateUserSchema.parse(req.body);
