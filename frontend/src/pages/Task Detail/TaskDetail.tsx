@@ -212,14 +212,15 @@ const TaskDetail = () => {
                 </div>
                 <div className="flex gap-1">
                   {task.collabUsers.map((user: any) => (
-                    <div key={user.id} className="h-10 w-10 relative group">
-                      <ProfilePicture name={user.name} fontSize="17" />
-                      {/* Tooltip */}
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-white text-xs p-2 rounded">
-                        <p>
-                          <strong>{user.name}</strong>
-                        </p>
-                        <p>{user.email}</p>
+                    <div key={user.id} className="relative">
+                      <div className="h-10 w-10 group">
+                        <ProfilePicture name={user.name} fontSize="17" />
+                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-white text-xs p-2 rounded shadow-lg z-50 pointer-events-none">
+                          <p>
+                            <strong>{user.name}</strong>
+                          </p>
+                          <p>{user.email}</p>
+                        </div>
                       </div>
                     </div>
                   ))}
