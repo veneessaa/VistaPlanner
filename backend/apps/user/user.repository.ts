@@ -3,8 +3,9 @@ import { SignupDto } from "../auth/dto/signup.dto";
 import { db } from "../../firebase/config";
 import bcrypt from "bcrypt"
 import { SigninDto } from "../auth/dto/signin.dto";
+import { UpdateUserDto } from "./dto/updateUser.dto";
 
-export async function createUser(userData: SignupDto) {
+export const createUser = async (userData: SignupDto) => {
     try {
         const docRef = await addDoc(collection(db, "users"), userData);
         console.log("User successfully created with ID:", docRef.id);
@@ -16,7 +17,25 @@ export async function createUser(userData: SignupDto) {
     }
 }
 
-export async function getUserByEmailAndPassword(user: SigninDto) {
+export const getUserByEmail = async (email: string) => {
+    try {
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            return null;
+        }
+
+        const userDoc = querySnapshot.docs[0];
+        return { id: userDoc.id, ...userDoc.data() };
+    } catch (error: any) {
+        console.error("Error retrieving user by email:", error);
+        throw new Error(error.message || "Failed to retrieve user");
+    }
+};
+
+export const getUserByEmailAndPassword = async (user: SigninDto) => {
     try {
 
         const usersRef = collection(db, "users");
@@ -42,7 +61,7 @@ export async function getUserByEmailAndPassword(user: SigninDto) {
     }
 }
 
-export async function updateUser(userId: string, updateData: any) {
+export const updateUser = async (userId: string, updateData: UpdateUserDto) => {
     try {
         const userRef = doc(db, "users", userId);
         const userSnap = await getDoc(userRef);
@@ -68,3 +87,19 @@ export async function updateUser(userId: string, updateData: any) {
         throw new Error(error.message || "Failed to update user");
     }
 }
+
+export const getUserById = async (userId: string) => {
+    try {
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+            throw new Error("User not found");
+        }
+
+        return { id: userId, ...userSnap.data() };
+    } catch (error: any) {
+        console.error("Error retrieving user by ID:", error);
+        throw new Error(error.message || "Failed to retrieve user");
+    }
+};

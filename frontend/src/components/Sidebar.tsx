@@ -13,10 +13,10 @@ import { Link } from "react-router-dom";
 
 const menuItems = [
   { icon: <IoHomeOutline size={30} />, label: "Home", to: "/homepage"},
-  { icon: <MdLibraryBooks size={30} />, label: "Tasks", to: "/" },
+  { icon: <MdLibraryBooks size={30} />, label: "Tasks", to: "/tasks" },
   { icon: <FaRegCalendarDays size={30} />, label: "Calendar", to: "/" },
   { icon: <FaBookReader size={30} />, label: "Study Zone", to: "/" },
-  { icon: <IoLogoBuffer size={30} />, label: "Collab & Sharing", to: "/" },
+  { icon: <IoLogoBuffer size={30} />, label: "Collab & Sharing", to: "/collab" },
   { icon: <TbReportSearch size={30} />, label: "Resource Center", to: "/" },
   { icon: <CiSettings size={30} />, label: "My Settings", to: "/mysettings" },
 ];
@@ -28,7 +28,7 @@ function Sidebar() {
     <nav className={`shadow-md p-2 flex flex-col duration-500 bg-primary text-white ${open ? "w-60" : "w-18"}`}>
       <div className={`px-2 py-2 h-20 flex justify-between items-center ${!open ? "justify-center" : "mb-3"}`}>
         <img src={Logo} alt="Logo" className={`${open ? "w-38" : "w-0"} mt-4`} />
-        <MdMenuOpen size={34} className={`cursor-pointer duration-500 ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
+        <MdMenuOpen size={35} className={`cursor-pointer duration-500 ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
       </div>
       <ul className="flex-1 p-1">
         {menuItems.map((item, index) => (

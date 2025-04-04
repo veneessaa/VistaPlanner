@@ -1,11 +1,11 @@
-import Logo from "../assets/images/logo_white.png";
+import Logo from "../../assets/images/logo_white.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 // Define validation schema using Zod
 const schema = z.object({
@@ -37,7 +37,7 @@ function Signin() {
             login(res.data.user)
             navigate("/homepage");
         } catch (error: any) {
-            toast.error(error.data.message)
+            toast.error(error.response.data.message)
         }
     };
 
