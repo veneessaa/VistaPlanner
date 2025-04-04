@@ -175,3 +175,32 @@ export const deleteTaskWithCollabs = async (taskId: string) => {
     throw new Error("Failed to delete task and its collaborators");
   }
 };
+
+export const deleteUserInTask = async (
+  taskId: string,
+  userIds: string[] // Accepts one or more userIds
+) => {
+  try {
+    const deletePromises = userIds.map(async (userId) => {
+      const q = query(
+        collection(db, "usersInTasks"),
+        where("taskId", "==", taskId),
+        where("userId", "==", userId)
+      );
+
+      const snapshot = await getDocs(q);
+
+      const docDeletes = snapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
+      return Promise.all(docDeletes);
+    });
+
+    await Promise.all(deletePromises);
+
+    return {
+      message: `Deleted user(s) [${userIds.join(", ")}] from task ${taskId}`,
+    };
+  } catch (error) {
+    console.error("Failed to delete user(s) in task:", error);
+    throw new Error("Failed to delete user(s) in task: " + error);
+  }
+};

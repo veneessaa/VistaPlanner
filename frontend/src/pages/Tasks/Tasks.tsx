@@ -101,9 +101,9 @@ function Tasks() {
           </button>
         </div>
         {loading ? (
-          <div>Loading...</div>
+          <div className="text-gray-500">Loading...</div>
         ) : tasks.length == 0 ? (
-          <div>No task found...</div>
+          <div className="text-gray-500">No task found...</div>
         ) : (
           <div className="flex flex-col gap-6">
             {tasks.map((task) => (

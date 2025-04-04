@@ -10,6 +10,7 @@ import ProtectedRoute from "./middlewares/ProtectedRoute.tsx";
 import Tasks from "./pages/Tasks/Tasks.tsx";
 import Collab from "./pages/Collab/Collab.tsx";
 import TaskDetail from "./pages/Task Detail/TaskDetail.tsx";
+import { CalendarPage } from "./pages/Calendar/Calendar.tsx";
 
 function App() {
   return (
@@ -18,11 +19,54 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/homepage" element={<ProtectedRoute><Homepage /></ProtectedRoute>} />
-          <Route path="/tasks" element={<ProtectedRoute><Tasks /></ProtectedRoute>} />
-          <Route path="/tasks/:taskId" element={<ProtectedRoute><TaskDetail /></ProtectedRoute>} />
-          <Route path="/collab" element={<ProtectedRoute><Collab /></ProtectedRoute>} />
-          <Route path="/mysettings" element={<ProtectedRoute><MySettings /></ProtectedRoute>} />
+          <Route
+            path="/homepage"
+            element={
+              <ProtectedRoute>
+                <Homepage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/tasks"
+            element={
+              <ProtectedRoute>
+                <Tasks />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/tasks/:taskId"
+            element={
+              <ProtectedRoute>
+                <TaskDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/collab"
+            element={
+              <ProtectedRoute>
+                <Collab />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mysettings"
+            element={
+              <ProtectedRoute>
+                <MySettings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/calendar"
+            element={
+              <ProtectedRoute>
+                <CalendarPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
