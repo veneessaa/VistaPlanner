@@ -206,7 +206,7 @@ function Homepage() {
                   <p className="text-gray-500 text-[10px] flex items-center gap-1 -translate-y-2">
                     📅 Feb 20 at 18.00
                   </p>
-                  <p className="text-gray-700 text-[10px] -translate-y-2">SM Entertainment</p>
+                  <p className="text-gray-700 text-[10px] -translate-y-2">YG Entertainment</p>
                   <p className="text-gray-700 text-[10px] -translate-y-2">18th floor, Room 123</p>
                 </div>
                 <div className="w-full sm:w-auto">
