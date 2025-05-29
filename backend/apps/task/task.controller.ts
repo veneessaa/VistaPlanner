@@ -4,6 +4,7 @@ import {
   createUserInTask,
   deleteTaskWithCollabs,
   deleteUserInTask,
+  getAllUserTasks,
   getCollabTask,
   getTaskById,
   getTasksByUserId,
@@ -229,6 +230,38 @@ router.delete("/:taskId", async (req, res) => {
   } catch (error: any) {
     console.error("Error during deleting task:", error);
     res.status(500).json({ message: "Failed to delete task" });
+  }
+});
+
+// get all task
+router.get("/all-tasks/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Panggil fungsi getAllUserTasks yang sudah gabungkan task owned & collab
+    const tasks = await getAllUserTasks(userId);
+
+    // Untuk setiap task, ambil owner dan collabUsers
+    const enrichedTasks = await Promise.all(
+      tasks.map(async (task) => {
+        const owner = await getUserById(task.userId);
+        const collabUsers = await getUsersByTaskId(task.id);
+        return { ...task, owner, collabUsers };
+      })
+    );
+
+    res.status(200).json({
+      message: "Get all tasks successfully",
+      tasks: enrichedTasks,
+    });
+  } catch (error: any) {
+    console.error("Error during getting all tasks:", error);
+
+    if (error.name === "ZodError") {
+      res.status(400).json({ message: "Invalid input", errors: error.errors });
+    }
+
+    res.status(500).json({ message: "Failed to get all tasks" });
   }
 });
 

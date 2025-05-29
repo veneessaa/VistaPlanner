@@ -93,6 +93,31 @@ export const getCollabTask = async (
   }
 };
 
+export const getAllUserTasks = async (
+  userId: string
+): Promise<(CreateTaskDto & { id: string })[]> => {
+  try {
+    // Panggil kedua fungsi secara paralel
+    const [ownedTasks, collabTasks] = await Promise.all([
+      getTasksByUserId(userId),
+      getCollabTask(userId),
+    ]);
+
+    // Gabungkan dua array task dan hilangkan duplikat (berdasarkan id)
+    const taskMap = new Map<string, CreateTaskDto & { id: string }>();
+
+    for (const task of [...ownedTasks, ...collabTasks]) {
+      taskMap.set(task.id, task as any);
+    }
+
+    return Array.from(taskMap.values()); // Kembalikan sebagai array
+  } catch (error) {
+    console.error("Failed to get all tasks:", error);
+    throw new Error("Failed to get all tasks");
+  }
+};
+
+
 export const getUsersByTaskId = async (taskId: string) => {
   try {
     const usersInTaskQuery = query(
