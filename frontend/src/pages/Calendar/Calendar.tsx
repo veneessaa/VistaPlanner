@@ -56,6 +56,7 @@ export const CalendarPage = () => {
     <SidebarLayout pageName="Calendar">
       <div>
         <FullCalendar
+          height={"auto"}
           plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
           events={events}
