@@ -42,7 +42,7 @@ export const SidebarLayout = ({ children, pageName }: Props) => {
             </div>
           </nav>
         </div>
-        <div className="content px-8 overflow-y-auto overflow-x-hidden">{children}</div>
+        <div className="content px-8 overflow-y-auto overflow-x-hidden scrollbar">{children}</div>
       </div>
     </div>
   );

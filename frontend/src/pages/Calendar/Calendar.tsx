@@ -70,7 +70,7 @@ export const CalendarPage = () => {
               Project: "#a855f7", // bg-purple-500
               Meeting: "#60a5fa", // bg-blue-400
               "Exam/Quiz": "#ef4444", // bg-red-500
-              "Class Schedule": "#facc15", // bg-yellow-500
+              Presentation: "#facc15", // bg-yellow-500
               Others: "#6b7280", // bg-gray-500
             };
 

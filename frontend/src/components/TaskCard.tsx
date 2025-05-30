@@ -10,12 +10,12 @@ export interface Task {
   title: string;
   category:
     | "Assignment"
-    | "Class Schedule"
+    | "Presentation"
     | "Meeting"
     | "Project"
     | "Exam/Quiz"
     | "Others";
-  status: "Not Started" | "In Progress" | "Done";
+  status: "Not Started" | "In Progress" | "Done" | "Late";
   priority: "High" | "Medium" | "Low";
   dueDate: string;
   description?: string;

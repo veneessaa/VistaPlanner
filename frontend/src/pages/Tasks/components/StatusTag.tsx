@@ -7,6 +7,7 @@ interface Props {
       "Not Started": "text-gray-400",
       "In Progress": "text-blue-500",
       "Done": "text-green-400",
+      "Late": "text-red-600"
     };
   
     return (

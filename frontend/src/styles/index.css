@@ -20,6 +20,12 @@ body {
   padding: 0;
 }
 
+.fc-view-harness {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 3px rgba(0,0,0,0.1);
+}
+
 .fc-event-title {
   white-space: normal !important; /* allow text to wrap */
   overflow-wrap: break-word; /* break long words if needed */
@@ -35,7 +41,8 @@ body {
 }
 
 .fc .fc-daygrid-day {
-  border-color: #e5e7eb; /* Change individual cell border */
+  border-color: #fff !important; /* Change individual cell border */
+  background-color: #bfdbfe !important; 
 }
 
 .fc-theme-standard td,
@@ -58,6 +65,69 @@ body {
   background-color: #faf4cf !important; /* Tailwind yellow-100 */
 }
 
-/* .fc-daygrid-event-dot { */
-/* border-color: #163979 !important; Use your desired color */
-/* } */
+/* index.css */
+.scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  border-radius: 9999px;
+}
+
+.scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #163979 transparent;
+}
+
+.react-calendar {
+  background-color: #dbeafe !important;
+  border-radius: 12px;
+  border: 1px solid var(--color-mid);
+  color: var(--color-primary); /* #163979 */
+}
+
+/* Hari ini */
+.react-calendar__tile--now {
+  background: var(--color-primary) !important; /* #93c5fd */
+  color: #fff !important; /* #163979 */
+  border-radius: 8px;
+}
+
+/* Hover tile */
+.react-calendar__tile:hover {
+  background-color: var(--color-sec) !important;
+  color: white;
+  border-radius: 8px;
+}
+
+/* Tile normal */
+.react-calendar__tile {
+  border-radius: 8px;
+}
+
+.event-dot {
+  background-color: #ef4444 !important;
+}
+
+
+/* Navigasi tombol */
+.react-calendar__navigation button {
+  color: var(--color-primary);
+}
+
+.react-calendar__navigation button:hover {
+  background-color: var(--color-sec) !important;
+  border-radius: 8px;
+}
+
+/* Header bulan dan tahun */
+.react-calendar__navigation__label {
+  font-weight: bold;
+  color: var(--color-primary);
+}
+

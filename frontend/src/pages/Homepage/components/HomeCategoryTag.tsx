@@ -8,7 +8,7 @@ export const HomeCategoryTag = ({ text }: Props) => {
     Project: "bg-purple-500",
     Meeting: "bg-blue-400",
     "Exam/Quiz": "bg-red-500",
-    "Class Schedule": "bg-yellow-500",
+    Presentation: "bg-yellow-500",
     Others: "bg-gray-500",
   };
 
@@ -16,7 +16,7 @@ export const HomeCategoryTag = ({ text }: Props) => {
     <div
       className={`${
         colorMap[text] || "bg-gray-400"
-      } px-2 py-0.5 rounded-lg text-white text-[13px]`}
+      } px-1.5 py-0.5 rounded-lg text-white text-[13px] flex items-center`}
     >
       {text}
     </div>

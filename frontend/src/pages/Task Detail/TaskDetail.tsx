@@ -118,6 +118,11 @@ const TaskDetail = () => {
 
       const newSubtask = res.data.subtask;
 
+      setTask((prev: any) => ({
+        ...prev,
+        status: res.data.status,
+      }));
+
       setSubtasks((prev: any) => [...prev, newSubtask]);
 
       if (newSubtask.status === "Not Started") {
@@ -137,10 +142,15 @@ const TaskDetail = () => {
   const handleUpdateSubtask = async (updatedData: UpdateSubtaskDTO) => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/subtasks/${editingSubtask.id}`,
+        `http://localhost:5000/subtasks/${editingSubtask.id}/${taskId}`,
         updatedData
       );
       toast.success(res.data.message);
+
+      setTask((prev: any) => ({
+        ...prev,
+        status: res.data.status,
+      }));
 
       const updatedSubtask = res.data.subtask;
 
@@ -170,9 +180,15 @@ const TaskDetail = () => {
 
   const handleDeleteSubtask = async (id: string) => {
     try {
-      const res = await axios.delete(`http://localhost:5000/subtasks/${id}`);
+      const res = await axios.delete(
+        `http://localhost:5000/subtasks/${id}/${taskId}`
+      );
       setSubtaskToDelete(null);
       toast.success(res.data.message);
+      setTask((prev: any) => ({
+        ...prev,
+        status: res.data.status,
+      }));
       setNotStarted((prev: any) => prev.filter((s: any) => s.id !== id));
       setInProgress((prev: any) => prev.filter((s: any) => s.id !== id));
       setDone((prev: any) => prev.filter((s: any) => s.id !== id));

@@ -7,7 +7,7 @@ const taskModalSchema = z.object({
   description: z.string().optional(),
   category: z.enum([
     "Assignment",
-    "Class Schedule",
+    "Presentation",
     "Meeting",
     "Project",
     "Exam/Quiz",
@@ -15,7 +15,7 @@ const taskModalSchema = z.object({
   ]),
   priority: z.enum(["High", "Medium", "Low"]),
   dueDate: z.string().min(1, "Due date is required"),
-  status: z.enum(["Not Started", "In Progress", "Done"]),
+  status: z.enum(["Not Started", "In Progress", "Done", "Late"]),
 });
 
 export type TaskModalFormData = z.infer<typeof taskModalSchema>;
@@ -80,7 +80,7 @@ export const TaskModal = ({ onClose, onSubmit }: TaskModalProps) => {
               <option value="Project">Project</option>
               <option value="Meeting">Meeting</option>
               <option value="Exam/Quiz">Exam/Quiz</option>
-              <option value="Class Schedule">Class Schedule</option>
+              <option value="Presentation">Presentation</option>
               <option value="Others">Others</option>
             </select>
             {errors.category && (
@@ -95,9 +95,9 @@ export const TaskModal = ({ onClose, onSubmit }: TaskModalProps) => {
               {...register("priority")}
               className="w-full border px-3 py-2 rounded-md"
             >
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
               <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
             </select>
             {errors.priority && (
               <p className="text-red-500 text-sm">{errors.priority.message}</p>

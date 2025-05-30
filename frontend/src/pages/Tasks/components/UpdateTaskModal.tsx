@@ -8,7 +8,7 @@ const taskModalSchema = z.object({
   description: z.string().optional(),
   category: z.enum([
     "Assignment",
-    "Class Schedule",
+    "Presentation",
     "Meeting",
     "Project",
     "Exam/Quiz",
@@ -16,7 +16,7 @@ const taskModalSchema = z.object({
   ]),
   priority: z.enum(["High", "Medium", "Low"]),
   dueDate: z.string().min(1, "Due date is required"),
-  status: z.enum(["Not Started", "In Progress", "Done"]),
+  status: z.enum(["Not Started", "In Progress", "Done", "Late"]),
 });
 
 export type TaskModalFormData = z.infer<typeof taskModalSchema>;
@@ -88,7 +88,7 @@ export const UpdateTaskModal = ({
               <option value="Project">Project</option>
               <option value="Meeting">Meeting</option>
               <option value="Exam/Quiz">Exam/Quiz</option>
-              <option value="Class Schedule">Class Schedule</option>
+              <option value="Presentation">Presentation</option>
               <option value="Others">Others</option>
             </select>
           </div>

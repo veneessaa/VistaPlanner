@@ -8,10 +8,13 @@ import {
   where,
   updateDoc,
   deleteDoc,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { CreateTaskDto } from "./dto/createTask.dto";
 import { UpdateTaskDto } from "./dto/updateTask.dto";
+import { getSubtasksByTaskId } from "../subtask/subtask.repository";
+import { updateStatus } from "../helper/task.helper";
 
 export const createTask = async (taskData: CreateTaskDto) => {
   try {
@@ -35,20 +38,46 @@ export const createUserInTask = async (userId: string, taskId: string) => {
 
 export const getTasksByUserId = async (userId: string) => {
   try {
-    const tasksRef = collection(db, "tasks"); // Referensi ke koleksi "tasks"
-    const q = query(tasksRef, where("userId", "==", userId)); // Query berdasarkan userId
+    const tasksRef = collection(db, "tasks");
+    const q = query(
+      tasksRef,
+      where("userId", "==", userId),
+      orderBy("dueDate", "asc")
+    );
     const querySnapshot = await getDocs(q);
 
-    if (querySnapshot.empty) {
-      return []; // Jika tidak ada task, kembalikan array kosong
-    }
+    if (querySnapshot.empty) return [];
 
-    const tasks = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const now = new Date();
 
-    return tasks; // Mengembalikan daftar tugas
+    const tasks = await Promise.all(
+      querySnapshot.docs.map(async (docSnap) => {
+        const taskData = docSnap.data();
+        const taskId = docSnap.id;
+        const dueDate = new Date(taskData.dueDate);
+        const status = taskData.status;
+        const taskRef = doc(db, "tasks", taskId);
+
+        // 🔴 Jika status task sudah "Done", skip semua logic
+        if (status === "Done") {
+          return { id: taskId, ...taskData };
+        }
+
+        // Ambil subtasks dari Firestore
+        const subtasks = await getSubtasksByTaskId(taskId);
+        let updatedStatus = updateStatus(subtasks, dueDate);
+
+        // Jika ada perubahan status, update
+        if (updatedStatus !== status) {
+          await updateDoc(taskRef, { status: updatedStatus });
+          return { id: taskId, ...taskData, status: updatedStatus };
+        }
+
+        return { id: taskId, ...taskData };
+      })
+    );
+
+    return tasks;
   } catch (error: any) {
     console.error("Error retrieving tasks by userId:", error);
     throw new Error(error.message || "Failed to retrieve tasks");
@@ -68,26 +97,47 @@ export const getCollabTask = async (
 
     if (userInTaskSnapshot.empty) return [];
 
-    // Step 2: Fetch task details using taskIds
+    const now = new Date();
+
+    // Step 2: Fetch task details and update status if overdue
     const taskPromises = userInTaskSnapshot.docs.map(async (docSnapshot) => {
       const { taskId } = docSnapshot.data();
       const taskRef = doc(db, "tasks", taskId);
       const taskSnap = await getDoc(taskRef);
 
-      if (taskSnap.exists()) {
-        // Extract task data and include id
-        const taskData = taskSnap.data() as CreateTaskDto;
-        return { id: taskSnap.id, ...taskData };
-      } else {
-        return null;
+      if (!taskSnap.exists()) return null;
+
+      const taskData = taskSnap.data() as CreateTaskDto;
+      const dueDate = new Date(taskData.dueDate);
+      const status = taskData.status;
+
+      // 🔴 Jika status task sudah "Done", skip semua logic
+      if (status === "Done") {
+        return { id: taskId, ...taskData };
       }
+
+      // Ambil subtasks dari Firestore
+      const subtasks = await getSubtasksByTaskId(taskId);
+      let updatedStatus = updateStatus(subtasks, dueDate);
+
+      // Jika ada perubahan status, update
+      if (updatedStatus !== status) {
+        await updateDoc(taskRef, { status: updatedStatus });
+        return { id: taskId, ...taskData, status: updatedStatus };
+      }
+
+      return { id: taskId, ...taskData };
     });
 
-    // Step 3: Resolve all task promises and filter out null results
     const tasks = await Promise.all(taskPromises);
-    return tasks.filter((task) => task !== null) as (CreateTaskDto & {
-      id: string;
-    })[];
+
+    // Step 3: Filter out nulls and sort by dueDate ascending
+    return tasks
+      .filter((task) => task !== null)
+      .sort(
+        (a, b) =>
+          new Date(a!.dueDate).getTime() - new Date(b!.dueDate).getTime()
+      ) as (CreateTaskDto & { id: string })[];
   } catch (error) {
     throw new Error("Failed to fetch tasks: " + error);
   }
@@ -110,13 +160,18 @@ export const getAllUserTasks = async (
       taskMap.set(task.id, task as any);
     }
 
-    return Array.from(taskMap.values()); // Kembalikan sebagai array
+    const allTasks = Array.from(taskMap.values());
+
+    allTasks.sort(
+      (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+    );
+
+    return allTasks;
   } catch (error) {
     console.error("Failed to get all tasks:", error);
     throw new Error("Failed to get all tasks");
   }
 };
-
 
 export const getUsersByTaskId = async (taskId: string) => {
   try {
