@@ -5,8 +5,6 @@ import { MdMenuOpen } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
 import { MdLibraryBooks } from "react-icons/md";
 import { FaRegCalendarDays } from "react-icons/fa6";
-import { FaBookReader } from "react-icons/fa";
-import { TbReportSearch } from "react-icons/tb";
 import { IoLogoBuffer } from "react-icons/io";
 import { CiSettings } from "react-icons/ci";
 import { Link } from "react-router-dom";
@@ -15,9 +13,9 @@ const menuItems = [
   { icon: <IoHomeOutline size={30} />, label: "Home", to: "/homepage"},
   { icon: <MdLibraryBooks size={30} />, label: "Tasks", to: "/tasks" },
   { icon: <FaRegCalendarDays size={30} />, label: "Calendar", to: "/calendar" },
-  { icon: <FaBookReader size={30} />, label: "Study Zone", to: "/" },
+  // { icon: <FaBookReader size={30} />, label: "Study Zone", to: "/" },
   { icon: <IoLogoBuffer size={30} />, label: "Collab & Sharing", to: "/collab" },
-  { icon: <TbReportSearch size={30} />, label: "Resource Center", to: "/" },
+  // { icon: <TbReportSearch size={30} />, label: "Resource Center", to: "/" },
   { icon: <CiSettings size={30} />, label: "My Settings", to: "/mysettings" },
 ];
 

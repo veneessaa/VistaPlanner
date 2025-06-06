@@ -1,6 +1,5 @@
 import { HTMLProps, ReactNode } from "react";
 import Sidebar from "../Sidebar";
-import userPhoto from "../../assets/images/Profile.png";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ProfilePicture } from "../ProfilePicture";
