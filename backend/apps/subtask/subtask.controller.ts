@@ -6,9 +6,9 @@ import {
   updateSubtask,
 } from "./subtask.repository";
 import { createSubtaskSchema } from "./dto/createSubtask.dto";
-import { getTaskById } from "../task/task.repository";
+import { getTaskById, getUsersByTaskId } from "../task/task.repository";
 import { updateSubtaskSchema } from "./dto/updateSubtask.dto";
-import { getUserById } from "../user/user.repository";
+import { getUserById, incrementStreak } from "../user/user.repository";
 import { updateStatus } from "../helper/task.helper";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
@@ -40,10 +40,14 @@ router.post("/", async (req, res) => {
       await updateDoc(taskRef, { status: updatedStatus });
     }
 
+    const user = getUsersByTaskId(task.id);
+    await incrementStreak(user);
+
     res.status(201).json({
       message: "Create subtask successfully",
       status: updatedStatus,
       subtask: newSubtask,
+      user: user,
     });
   } catch (error: any) {
     console.error("Error during creating subtask:", error);
@@ -100,10 +104,14 @@ router.put("/:subtaskId/:taskId", async (req, res) => {
     let user = null;
     if (updated.userId) user = await getUserById(updated.userId);
 
+    const currUser = getUsersByTaskId(task.id);
+    await incrementStreak(currUser);
+
     res.status(200).json({
       message: "Update subtask successfully",
       status: updatedStatus,
       subtask: { ...updated, user },
+      user: currUser,
     });
   } catch (error: any) {
     console.error("Error during updating subtask:", error);

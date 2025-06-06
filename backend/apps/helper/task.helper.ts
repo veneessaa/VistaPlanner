@@ -17,7 +17,7 @@ export const updateStatus = (subtasks: any, dueDate: any) => {
       status = "In Progress";
     }
   } else {
-    return "Not Started";
+    status = "Not Started";
   }
 
   // Tambahan: kalau overdue dan bukan Done/Late, jadi Late

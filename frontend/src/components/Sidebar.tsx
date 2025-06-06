@@ -14,7 +14,7 @@ const menuItems = [
   { icon: <MdLibraryBooks size={30} />, label: "Tasks", to: "/tasks" },
   { icon: <FaRegCalendarDays size={30} />, label: "Calendar", to: "/calendar" },
   // { icon: <FaBookReader size={30} />, label: "Study Zone", to: "/" },
-  { icon: <IoLogoBuffer size={30} />, label: "Collab & Sharing", to: "/collab" },
+  { icon: <IoLogoBuffer size={30} />, label: "Collaboration", to: "/collab" },
   // { icon: <TbReportSearch size={30} />, label: "Resource Center", to: "/" },
   { icon: <CiSettings size={30} />, label: "My Settings", to: "/mysettings" },
 ];

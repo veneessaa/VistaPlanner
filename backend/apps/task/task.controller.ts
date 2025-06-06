@@ -12,7 +12,11 @@ import {
   updateTask,
 } from "./task.repository";
 import { CreateTaskDto, createTaskSchema } from "./dto/createTask.dto";
-import { getUserByEmail, getUserById } from "../user/user.repository";
+import {
+  getUserByEmail,
+  getUserById,
+  incrementStreak,
+} from "../user/user.repository";
 import { addUserSchema } from "./dto/addUser.dto";
 import { updateTaskSchema } from "./dto/updateTask.dto";
 
@@ -32,9 +36,12 @@ router.post("/", async (req, res) => {
     const owner = await getUserById(validatedData.userId);
     const collabUsers = await getUsersByTaskId(newTask.id);
 
+    await incrementStreak(owner);
+
     res.status(201).json({
       message: "Create task successfully",
       task: { ...newTask, owner, collabUsers },
+      user: owner
     });
   } catch (error: any) {
     console.error("Error during creating task:", error);
@@ -161,9 +168,12 @@ router.put("/:taskId", async (req, res) => {
     const owner = await getUserById(updatedData.userId);
     const collabUsers = await getUsersByTaskId(taskId);
 
+    await incrementStreak(owner);
+
     res.status(200).json({
       message: "Update task successfully",
       task: { ...updatedTask, owner, collabUsers },
+      user: owner
     });
   } catch (error: any) {
     console.error("Error during updating task:", error);

@@ -24,7 +24,7 @@ import { DeleteCollabModal } from "./components/DeleteCollabModal";
 import { useAuth } from "../../context/AuthContext";
 
 const TaskDetail = () => {
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const [task, setTask] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -125,6 +125,8 @@ const TaskDetail = () => {
 
       setSubtasks((prev: any) => [...prev, newSubtask]);
 
+      login(res.data.user);
+
       if (newSubtask.status === "Not Started") {
         setNotStarted((prev: any) => [...prev, newSubtask]);
       } else if (newSubtask.status === "In Progress") {
@@ -151,6 +153,8 @@ const TaskDetail = () => {
         ...prev,
         status: res.data.status,
       }));
+
+      login(res.data.user);
 
       const updatedSubtask = res.data.subtask;
 

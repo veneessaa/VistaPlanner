@@ -298,9 +298,9 @@ function Homepage() {
             <MiniCalendar myTasks={myTasks} />
           </div>
         </div>
-        <div className="bg-third p-5 rounded-xl flex-1">
+        <div className="bg-third p-5 rounded-xl">
           <div className="text-primary font-bold text-xl">Statistics</div>
-          <div className="flex items-center">
+          <div className="flex items-center justify-evenly">
             <PieChart width={230} height={230}>
               <Pie
                 data={data}

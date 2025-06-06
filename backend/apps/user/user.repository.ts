@@ -16,10 +16,21 @@ import { UpdateUserDto } from "./dto/updateUser.dto";
 
 export const createUser = async (userData: SignupDto) => {
   try {
-    const docRef = await addDoc(collection(db, "users"), userData);
-    console.log("User successfully created with ID:", docRef.id);
-    const newUser = { id: docRef.id, ...userData };
-    return newUser;
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const fullUserData = {
+      ...userData,
+      lastActivity: yesterday,
+      currentStreak: 0,
+    };
+
+    const docRef = await addDoc(collection(db, "users"), fullUserData);
+
+    return {
+      id: docRef.id,
+      ...fullUserData,
+    };
   } catch (error) {
     console.error("Error creating user:", error);
     throw new Error("Failed to create user");
@@ -109,5 +120,64 @@ export const getUserById = async (userId: string) => {
   } catch (error: any) {
     console.error("Error retrieving user by ID:", error);
     throw new Error(error.message || "Failed to retrieve user");
+  }
+};
+
+export const incrementStreak = async (user: any) => {
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10); // "YYYY-MM-DD"
+
+  const userRef = doc(db, "users", user.id);
+
+  if (user.lastActivity == undefined) {
+    await updateDoc(userRef, {
+      currentStreak: 1,
+      lastActivity: today,
+    });
+    return;
+  }
+
+  const lastActivityStr =
+    user.lastActivity?.toDate?.().toISOString().slice(0, 10) ||
+    new Date(user.lastActivity).toISOString().slice(0, 10);
+
+  if (lastActivityStr === todayStr) {
+    return;
+  }
+
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  const yesterdayStr = yesterday.toISOString().slice(0, 10);
+
+  let newStreak = 1;
+
+  if (lastActivityStr === yesterdayStr) {
+    newStreak = (user.currentStreak || 0) + 1;
+  }
+
+  await updateDoc(userRef, {
+    currentStreak: newStreak,
+    lastActivity: today,
+  });
+};
+
+export const resetStreakIfInactive = async (user: any) => {
+  const today = new Date();
+  const twoDaysAgo = new Date();
+  twoDaysAgo.setDate(today.getDate() - 2);
+
+  const lastActivityDate =
+    user.lastActivity?.toDate?.() || new Date(user.lastActivity);
+
+  const isTwoDaysAgo =
+    lastActivityDate.toISOString().slice(0, 10) ===
+    twoDaysAgo.toISOString().slice(0, 10);
+
+  if (isTwoDaysAgo) {
+    const userRef = doc(db, "users", user.id);
+    await updateDoc(userRef, {
+      currentStreak: 0,
+    });
+    console.log(`Streak reset for user ${user.id}`);
   }
 };

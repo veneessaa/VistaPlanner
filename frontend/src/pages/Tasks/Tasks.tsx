@@ -24,7 +24,7 @@ const defaultFilters = {
 };
 
 function Tasks() {
-  const { user } = useAuth(); // Get the authenticated user
+  const { user, login } = useAuth(); // Get the authenticated user
   const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -98,6 +98,7 @@ function Tasks() {
       setTasks((prev) => [...prev, res.data.task]); // Update UI
       setIsModalOpen(false); // Close modal
       toast.success(res.data.message);
+      login(res.data.user);
     } catch (error) {
       console.error("Failed to add task:", error);
     }
@@ -118,6 +119,7 @@ function Tasks() {
       );
       setIsEditModalOpen(false); // Close modal
       toast.success(res.data.message);
+      login(res.data.user);
     } catch (error) {
       console.error("Failed to update task:", error);
     }
@@ -163,7 +165,7 @@ function Tasks() {
               className="ml-4 px-4 py-2 border rounded-md w-60 border-gray-400 text-gray-500 bg-white"
             />
             <MdFilterAlt
-              size={45}
+              size={40}
               color="#163979"
               className="cursor-pointer ml-4"
               onClick={() => setShowFilter((v) => !v)}
